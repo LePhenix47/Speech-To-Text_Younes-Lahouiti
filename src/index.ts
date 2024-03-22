@@ -77,9 +77,15 @@ function initializeSpeechRecognition() {
 
   // Create a new instance of SpeechRecognition
   // @ts-ignore
-  const recognition = new (window.SpeechRecognition ||
+  const SpeechRecognition =
     // @ts-ignore
-    window.webkitSpeechRecognition)();
+    window.SpeechRecognition ||
+    // @ts-ignore
+    window.webkitSpeechRecognition;
+
+  const recognition = new SpeechRecognition();
+
+  console.log(recognition);
 
   // Set recognition parameters
   recognition.lang = "en-US"; // Set the language for recognition
@@ -96,13 +102,6 @@ function initializeSpeechRecognition() {
     console.log("Speech recognition ended.");
     // Optionally, restart recognition if continuous listening is desired
     // recognition.start();
-  });
-
-  // Event listener for recognition errors
-  recognition.addEventListener("error", (event) => {
-    console.error("Speech recognition error:", event.error);
-
-    setErrorMessageToH2(event.error);
   });
 
   // Start the recognition process
