@@ -33,16 +33,7 @@
 
         &--options {}
 
-        &--result {
-            border-radius: 5px;
-            border: 2px solid currentColor;
-
-            padding: 5px;
-
-            max-height: 75svh;
-
-            overflow-y: scroll;
-        }
+        &--result {}
 
         &--buttons {
             display: flex;
@@ -53,24 +44,14 @@
     &__sentences-container {
         width: inherit;
 
+        border-radius: 5px;
+        border: 2px solid currentColor;
 
+        padding: 5px;
 
-        --_fade-height: 30px;
+        max-height: 75svh;
 
-        mask-image:
-            linear-gradient(0deg,
-                transparent,
-                transparent var(--_fade-height),
-                black var(--_fade-height),
-                black calc(100% - var(--_fade-height)),
-                transparent),
-
-            linear-gradient(180deg,
-                transparent,
-                transparent var(--_fade-height),
-                black var(--_fade-height),
-                black calc(100% - var(--_fade-height)),
-                transparent);
+        overflow-y: auto;
 
         &:empty {
             border: none;
@@ -83,5 +64,16 @@
         &:last-child {
             margin-bottom: 0;
         }
+    }
+
+    &__button {
+        padding: 15px;
+
+        text-align: center;
+
+        background-color: var(--color-primary);
+        color: var(--bg-primary);
+
+        border-radius: 5px;
     }
 }

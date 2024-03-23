@@ -106,11 +106,15 @@ recognition.setLanguage(navigator.language);
 
 let finishedSentence = false;
 
+let paragraph = null;
+
+const container = selectQuery(".index__sentences-container");
+
 function initializeSpeechRecognition() {
   checkIfUserIsOnline();
 
   recognition.setOnResult((sentences, isFinal) => {
-    if (finishedSentence) {
+    if (finishedSentence || paragraph === null) {
       paragraph = document.createElement("p");
       paragraph.classList.add("index__sentences");
 
@@ -127,9 +131,3 @@ function initializeSpeechRecognition() {
 }
 
 initializeSpeechRecognition();
-
-let paragraph = document.createElement("p");
-paragraph.classList.add("index__sentences");
-
-const container = selectQuery(".index__sentences-container");
-container.append(paragraph);
