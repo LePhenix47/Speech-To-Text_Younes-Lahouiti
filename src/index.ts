@@ -12,7 +12,7 @@ import { copyTextToClipBoard } from "@utils/functions/helper-functions/string.fu
 // TODO: Check if the user is online → API works with an internet connection
 // TODO: Check if the microphone is available → if not it's already in use + if the mic is on
 
-const headingElement = selectQuery<HTMLHeadingElement>("h2");
+const headingElement = selectQuery<HTMLHeadingElement>(".index__title-2.hide");
 
 function setErrorMessageToH2(message: string) {
   removeClass(headingElement, "hide");
@@ -95,13 +95,25 @@ function handleError(event: ErrorEvent) {
       break;
     }
   }
+  setErrorMessageToH2(errorMessage);
+
   recognition.stopRecognition();
   recognition.setOnEnd(null);
-
-  setErrorMessageToH2(errorMessage);
 }
 
+function checkSpeechRecognitionSupport() {
+  try {
+    const recognition = new SpeechToText();
+  } catch (error) {
+    setErrorMessageToH2(
+      "Unfortunately, this browser does not support the Speech Recognition API because it isn't implemented yet. ಠ_ಠ"
+    );
+  }
+}
+checkSpeechRecognitionSupport();
+
 const recognition = new SpeechToText();
+
 recognition.startRecognition();
 
 recognition.setInterimResults(true);
