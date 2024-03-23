@@ -1,4 +1,9 @@
 class SpeechToText {
+  /**
+   * The `SpeechRecognition` instance used for speech recognition.
+   * @private
+   * @readonly
+   */
   // @ts-ignore
   private readonly recognition: SpeechRecognition;
 
@@ -8,8 +13,7 @@ class SpeechToText {
    */
   constructor() {
     /**
-     *
-     * @class
+     * The `SpeechRecognition` constructor used for speech recognition.
      */
     const SpeechRecognition =
       // @ts-ignore
@@ -17,17 +21,20 @@ class SpeechToText {
       // @ts-ignore
       window.webkitSpeechRecognition;
 
-    this.recognition = new SpeechRecognition();
-
     if (!SpeechRecognition) {
       throw new Error(
         "This browser doesn't support the speech recognition, please try using Google Chrome, Microsoft Edge or Safari."
       );
     }
+
+    this.recognition = new SpeechRecognition();
   }
 
   /**
    * Set whether to include interim results.
+   * Interim results are partially recognized speech that is not yet final.
+   * Enabling interim results allows you to receive updates as the user speaks.
+   *
    * @param {boolean} newBool - Whether to include interim results.
    * @returns {SpeechToText} The current instance of SpeechToText.
    */
@@ -79,20 +86,15 @@ class SpeechToText {
     callback: (sentence: string, isFinal: boolean) => void
   ): SpeechToText => {
     this.recognition.onresult = (event) => {
-      const results: SpeechRecognitionResultList = event.results;
+      const resultsList: SpeechRecognitionResultList = event.results;
 
-      const resultsArray = Array.from(results);
+      const result: SpeechRecognitionResult = resultsList[0];
 
-      const text: string = resultsArray
-        .map((result: SpeechRecognitionResult) => {
-          return result[0];
-        })
-        .map((result: SpeechRecognitionAlternative) => {
-          return result.transcript;
-        })
-        .join("");
+      const alternative: SpeechRecognitionAlternative = result[0];
 
-      callback(text, resultsArray[0].isFinal);
+      const text: string = alternative.transcript;
+
+      callback(text, result.isFinal);
     };
 
     return this;
@@ -104,9 +106,19 @@ class SpeechToText {
    * @returns {SpeechToText} The current instance of SpeechToText.
    */
   setOnEnd = (callback: (e?: Event) => void): SpeechToText => {
-    this.recognition.onend = (e: Event) => {
-      callback(e);
-    };
+    this.recognition.onend = callback;
+
+    return this;
+  };
+
+  /**
+   * Set the callback function to handle recognition error.
+   *
+   * @param {function} callback - The callback function to handle recognition error.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnError = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onerror = callback;
 
     return this;
   };

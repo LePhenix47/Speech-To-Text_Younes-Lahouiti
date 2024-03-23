@@ -1,3 +1,87 @@
 @use "../utils/" as *;
 
-.index {}
+.index {
+    min-height: 80svh;
+
+    padding-block: 25px;
+
+    &__options {
+        @include center-flex-column(25px);
+
+        width: 80%;
+        margin-inline: auto;
+
+        padding: 15px;
+
+        border: 2px solid currentColor;
+        border-radius: 15px;
+    }
+
+    &__label {
+        text-decoration: underline;
+    }
+
+    &__select {
+        border-radius: 100vmax;
+
+        padding-block: 2px;
+        padding-inline: 5px;
+    }
+
+    &__fieldset {
+        width: 100%;
+
+        &--options {}
+
+        &--result {
+            border-radius: 5px;
+            border: 2px solid currentColor;
+
+            padding: 5px;
+
+            max-height: 75svh;
+
+            overflow-y: scroll;
+        }
+
+        &--buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &__sentences-container {
+        width: inherit;
+
+
+
+        --_fade-height: 30px;
+
+        mask-image:
+            linear-gradient(0deg,
+                transparent,
+                transparent var(--_fade-height),
+                black var(--_fade-height),
+                black calc(100% - var(--_fade-height)),
+                transparent),
+
+            linear-gradient(180deg,
+                transparent,
+                transparent var(--_fade-height),
+                black var(--_fade-height),
+                black calc(100% - var(--_fade-height)),
+                transparent);
+
+        &:empty {
+            border: none;
+        }
+    }
+
+    &__sentences {
+        margin-bottom: 25px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

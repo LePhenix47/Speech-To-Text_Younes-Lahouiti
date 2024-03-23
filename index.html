@@ -9,18 +9,18 @@
     <meta name="description" content="Description" />
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph     -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Home page" />
     <meta property="og:description" content="Description" />
 
-    <meta property="og:image" content="/profile-pic.jpg" />
+    <meta property="og:image" content="/png/icon-dark.png" />
     <meta property="og:image:width" content="130" />
     <meta property="og:image:height" content="170" />
     <meta property="og:url" content="https://younes-portfolio-dev.vercel.app/" />
 
     <!-- Title -->
-    <title>Title</title>
+    <title>Speech to text</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="./dist/style.css" />
@@ -29,7 +29,8 @@
     <script src="https://kit.fontawesome.com/904e9ee361.js" crossorigin="anonymous"></script>
 
     <!-- Page logo -->
-    <link rel="icon" type="image/png" href="./public/png/icon.png" />
+    <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="./public/png/icon-dark.png" />
+    <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" href="./public/png/icon-light.png" />
 
     <!-- JS -->
     <script defer src="./dist/index.js"></script>
@@ -41,12 +42,61 @@
         <svg class="hide header__svg-filters"></svg>
         <h1 class="header__title" title="Title">Speech to text</h1>
     </header>
+    <h2 class="index__title-2 hide"></h2>
 
     <main class="index">
-        <h2 class="index__title-2 hide"></h2>
-        <section class="index__words-container">
 
-        </section>
+        <form class="index__options">
+            <fieldset class="index__fieldset index__fieldset--options">
+                <label class="index__label" for="languages">
+                    Select language:
+                </label>
+                <select class="index__select" name="languages" id="languages">
+                    <!-- <option value=""></option> -->
+                </select>
+            </fieldset>
+
+            <fieldset class="index__fieldset index__fieldset--result">
+                <section class="index__sentences-container" spellcheck="false">
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                    <p class="index__sentences">Test test test test test test test test test test test test test.</p>
+                </section>
+            </fieldset>
+
+            <fieldset class="index__fieldset index__fieldset--buttons">
+                <button type="button" class="index__button">Copy text</button>
+                <button type="button" class="index__button">Download as <code>.txt</code> file</button>
+            </fieldset>
+        </form>
+
     </main>
     <footer class="footer">
         <p class="footer__paragraph">
