@@ -4,15 +4,13 @@ import {
   selectQuery,
 } from "@utils/functions/helper-functions/dom.functions";
 import "./components/web-component.component";
+import SpeechToText from "@utils/classes/SpeechToText.class";
 
 // TODO: Check if the API is supported → Firefox does not support the API
 // TODO: Check if the user is online → API works with an internet connection
 // TODO: Check if the microphone is available → if not it's already in use + if the mic is on
-// TODO: Remove and improve all the goofy aah code
 
 const headingElement = selectQuery<HTMLHeadingElement>("h2");
-
-const audio = selectQuery<HTMLAudioElement>("audio");
 
 function setErrorMessageToH2(message: string) {
   removeClass(headingElement, "hide");
@@ -31,8 +29,6 @@ function checkSpeechRecognitionAvailability() {
       "The SpeechRecognition is not supported in your browser (╯°□°）╯︵ ┻━┻"
     );
   }
-
-  return isNotSupported;
 }
 checkSpeechRecognitionAvailability();
 
@@ -48,62 +44,36 @@ function checkIfUserIsOnline() {
   return onLine;
 }
 
-async function initializeRecorder(): Promise<void> {
-  try {
-    /**
-     * The raw webcam audio stream.
-     */
-    const rawAudioData: MediaStream = await navigator.mediaDevices.getUserMedia(
-      {
-        audio: true,
-      }
-    );
-
-    audio.srcObject = rawAudioData;
-    audio.play();
-
-    audio.addEventListener("loadeddata", initializeSpeechRecognition);
-  } catch (error) {
-    console.log({ error });
-
-    setErrorMessageToH2(`${error.message}`);
-  }
-}
-
-initializeRecorder();
-
+let finishedSentence = false;
 function initializeSpeechRecognition() {
   checkIfUserIsOnline();
 
-  // Create a new instance of SpeechRecognition
-  // @ts-ignore
-  const SpeechRecognition =
-    // @ts-ignore
-    window.SpeechRecognition ||
-    // @ts-ignore
-    window.webkitSpeechRecognition;
+  const recognition = new SpeechToText();
+  recognition.startRecognition();
 
-  const recognition = new SpeechRecognition();
+  recognition.setInterimResults(true);
 
-  console.log(recognition);
+  recognition.setLanguage(navigator.language);
 
-  // Set recognition parameters
-  recognition.lang = "en-US"; // Set the language for recognition
+  recognition.setOnResult((sentences, isFinal) => {
+    if (finishedSentence) {
+      paragraph = document.createElement("p");
+      paragraph.classList.add("index__words");
 
-  // Event listener for when speech is recognized
-  recognition.addEventListener("result", (event) => {
-    const transcript = event.results[0][0].transcript; // Get the transcribed speech
-    console.log("Transcript:", transcript);
-    // Do something with the transcribed speech
+      container.append(paragraph);
+    }
+
+    paragraph.textContent = sentences;
+    finishedSentence = isFinal;
   });
 
-  // Event listener for when recognition ends
-  recognition.addEventListener("end", () => {
-    console.log("Speech recognition ended.");
-    // Optionally, restart recognition if continuous listening is desired
-    // recognition.start();
-  });
-
-  // Start the recognition process
-  recognition.start();
+  recognition.setOnEnd(recognition.startRecognition);
 }
+
+initializeSpeechRecognition();
+
+let paragraph = document.createElement("p");
+paragraph.classList.add("index__words");
+
+const container = selectQuery(".index__words-container");
+container.append(paragraph);
