@@ -79,7 +79,7 @@ class SpeechToText {
 
   /**
    * Set the callback function to handle recognition results.
-   * @param {function} callback - The callback function.
+   * @param {(sentence: string, isFinal: boolean) => void} callback - The callback function.
    * @returns {SpeechToText} The current instance of `SpeechToText`.
    */
   setOnResult = (
@@ -102,7 +102,7 @@ class SpeechToText {
 
   /**
    * Set the callback function to handle recognition end.
-   * @param {function} callback - The callback function.
+   * @param {(e?: Event) => void} callback - The callback function.
    * @returns {SpeechToText} The current instance of SpeechToText.
    */
   setOnEnd = (callback: (e?: Event) => void): SpeechToText => {
@@ -114,10 +114,10 @@ class SpeechToText {
   /**
    * Set the callback function to handle recognition error.
    *
-   * @param {function} callback - The callback function to handle recognition error.
+   * @param {(e?: ErrorEvent) => void} callback - The callback function to handle recognition error.
    * @returns {SpeechToText} The current instance of SpeechToText.
    */
-  setOnError = (callback: (e?: Event) => void): SpeechToText => {
+  setOnError = (callback: (e?: ErrorEvent) => void): SpeechToText => {
     this.recognition.onerror = callback;
 
     return this;

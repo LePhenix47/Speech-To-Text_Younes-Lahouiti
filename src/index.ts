@@ -6,6 +6,7 @@ import {
 import "./components/web-component.component";
 import SpeechToText from "@utils/classes/SpeechToText.class";
 import { languagesArray } from "@utils/variables/languages.variables";
+import { copyTextToClipBoard } from "@utils/functions/helper-functions/string.functions";
 
 // TODO: Check if the API is supported → Firefox does not support the API
 // TODO: Check if the user is online → API works with an internet connection
@@ -36,24 +37,27 @@ const select = selectQuery<HTMLSelectElement>("select");
 function populateSelectOptions() {
   let options = ``;
 
+  const [userLanguageLocaleCode, userLanguageCountryCode] =
+    navigator.language.split("-");
+
   for (const language of languagesArray) {
     const { label, nativeLabel, localeCode } = language;
 
+    const isDefaultOption: boolean = localeCode === userLanguageLocaleCode;
+
     options += /* html */ `
-    <option value="${localeCode}">${label} (${nativeLabel})</option>
+    <option value="${localeCode}" ${
+      isDefaultOption ? "selected" : ""
+    }>${label} (${nativeLabel})</option>
     `;
   }
 
   select.insertAdjacentHTML("beforeend", options);
 
-  select.value = navigator.language;
-
   select.addEventListener("change", (e) => {
     const select = e.currentTarget as HTMLSelectElement;
 
     recognition.setLanguage(select.value);
-
-    console.log(recognition);
   });
 }
 populateSelectOptions();
@@ -108,7 +112,7 @@ let finishedSentence = false;
 
 let paragraph = null;
 
-const container = selectQuery(".index__sentences-container");
+const container = selectQuery<HTMLElement>(".index__sentences-container");
 
 function initializeSpeechRecognition() {
   checkIfUserIsOnline();
@@ -131,3 +135,81 @@ function initializeSpeechRecognition() {
 }
 
 initializeSpeechRecognition();
+
+function showTextAfterAmountOfTime(
+  element: HTMLElement,
+  text: string,
+  offset?: number,
+  onEnd?: () => void
+) {
+  element.textContent = text;
+
+  setTimeout(onEnd, offset || 0);
+}
+
+const copyButton = selectQuery<HTMLButtonElement>(".index__button--copy");
+copyButton.addEventListener("click", async (e) => {
+  const text = container.innerText;
+
+  if (!text) {
+    showTextAfterAmountOfTime(copyButton, "No text to copy", 1_000, () => {
+      copyButton.textContent = "Copy text";
+    });
+    return;
+  }
+
+  await copyTextToClipBoard(text);
+
+  showTextAfterAmountOfTime(
+    copyButton,
+    "Successfully copied the text!",
+    1_000,
+    () => {
+      copyButton.textContent = "Copy text";
+    }
+  );
+});
+
+const downloadAsTextButton = selectQuery<HTMLButtonElement>(
+  ".index__button--download"
+);
+downloadAsTextButton.addEventListener("click", (e) => {
+  const text = container.innerText;
+
+  if (!text) {
+    showTextAfterAmountOfTime(
+      downloadAsTextButton,
+      "No text to download",
+      1_000,
+      () => {
+        downloadAsTextButton.innerHTML = /*html*/ `Download as as <code>.txt</code> file`;
+      }
+    );
+    return;
+  }
+
+  const filename = "speech.txt";
+  const element = createDownloadLink(text, filename);
+
+  appendLinkToBodyAndTriggerDownload(element);
+
+  showTextAfterAmountOfTime(downloadAsTextButton, "Downloaded!", 1_000, () => {
+    downloadAsTextButton.innerHTML = /*html*/ `Download as as <code>.txt</code> file`;
+  });
+});
+
+function createDownloadLink(text: string, filename: string): HTMLAnchorElement {
+  const element = document.createElement("a");
+
+  element.href = `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`;
+  element.download = filename;
+  element.style.display = "none";
+
+  return element;
+}
+
+function appendLinkToBodyAndTriggerDownload(link: HTMLAnchorElement): void {
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

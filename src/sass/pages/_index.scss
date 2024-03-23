@@ -1,11 +1,28 @@
 @use "../utils/" as *;
 
+html {}
+
 .index {
+    --s: 76px;
+    /* control the size */
+
+    --c: #1a144a;
+    --_g: conic-gradient(var(--c) 25%, #0000 0) 0 0;
+    background:
+        var(--_g)/calc(2*var(--s)) calc(var(--s)/9.5),
+        var(--_g)/calc(var(--s)/9.5) calc(2*var(--s)),
+        repeating-conic-gradient(#0000 0 25%, var(--c) 0 50%) var(--s) 0 /calc(2*var(--s)) calc(2*var(--s)),
+        radial-gradient(50% 50%, #2eb044 98%, var(--c)) 0 0/var(--s) var(--s);
     min-height: 80svh;
 
     padding-block: 25px;
 
+    @include center-flex-column;
+    justify-content: flex-start;
+
     &__options {
+        background-color: var(--bg-primary);
+
         @include center-flex-column(25px);
 
         width: 80%;
@@ -38,18 +55,21 @@
         &--buttons {
             display: flex;
             justify-content: space-between;
+            gap: 15px;
         }
     }
 
     &__sentences-container {
         width: inherit;
 
+        min-height: 50svh;
+        max-height: 75svh;
+
         border-radius: 5px;
         border: 2px solid currentColor;
 
         padding: 5px;
 
-        max-height: 75svh;
 
         overflow-y: auto;
 
@@ -75,5 +95,18 @@
         color: var(--bg-primary);
 
         border-radius: 5px;
+
+        transition: filter 250ms ease-in-out;
+
+        flex: 1;
+
+
+        &:hover {
+            filter: brightness(85%);
+        }
+
+        &:active {
+            filter: brightness(75%);
+        }
     }
 }
