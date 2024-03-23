@@ -124,6 +124,76 @@ class SpeechToText {
   };
 
   /**
+   * Set the callback function to handle speech recognition start.
+   * @param {(e?: Event) => void} callback - The callback function to handle speech recognition start.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnStart = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onstart = callback;
+    return this;
+  };
+
+  /**
+   * Set the callback function to handle the start of audio capture.
+   * @param {(e?: Event) => void} callback - The callback function to handle the start of audio capture.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnAudioStart = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onstart = callback;
+    return this;
+  };
+
+  /**
+   * Set the callback function to handle speech recognition sound start.
+   * @param {(e?: Event) => void} callback - The callback function to handle speech recognition sound start.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnSoundStart = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onsoundstart = callback;
+    return this;
+  };
+
+  /**
+   * Set the callback function to handle speech recognition sound end.
+   * @param {(e?: Event) => void} callback - The callback function to handle speech recognition sound end.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnSoundEnd = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onsoundend = callback;
+    return this;
+  };
+
+  /**
+   * Set the callback function to handle speech recognition speech start.
+   * @param {(e?: Event) => void} callback - The callback function to handle speech recognition speech start.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnSpeechStart = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onspeechstart = callback;
+    return this;
+  };
+
+  /**
+   * Set the callback function to handle speech recognition speech end.
+   * @param {(e?: Event) => void} callback - The callback function to handle speech recognition speech end.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnSpeechEnd = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onspeechend = callback;
+    return this;
+  };
+
+  /**
+   * Set the callback function to handle speech recognition nomatch.
+   * @param {(e?: Event) => void} callback - The callback function to handle speech recognition nomatch.
+   * @returns {SpeechToText} The current instance of SpeechToText.
+   */
+  setOnNoMatch = (callback: (e?: Event) => void): SpeechToText => {
+    this.recognition.onnomatch = callback;
+    return this;
+  };
+
+  /**
    * Start speech recognition.
    * @returns {SpeechToText} The current instance of SpeechToText.
    */
