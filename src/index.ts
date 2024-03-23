@@ -4,13 +4,9 @@ import {
   selectQuery,
 } from "@utils/functions/helper-functions/dom.functions";
 import "./components/web-component.component";
-import SpeechToText from "@utils/classes/SpeechToText.class";
 import { languagesArray } from "@utils/variables/languages.variables";
 import { copyTextToClipBoard } from "@utils/functions/helper-functions/string.functions";
-
-// TODO: Check if the API is supported → Firefox does not support the API
-// TODO: Check if the user is online → API works with an internet connection
-// TODO: Check if the microphone is available → if not it's already in use + if the mic is on
+import { SpeechToText } from "@lephenix47/speech-to-text-utility";
 
 const headingElement = selectQuery<HTMLHeadingElement>(".index__title-2.hide");
 
@@ -35,7 +31,7 @@ function checkIfUserIsOnline() {
 const select = selectQuery<HTMLSelectElement>("select");
 
 function populateSelectOptions() {
-  let options = ``;
+  let options: string = ``;
 
   const [userLanguageLocaleCode, userLanguageCountryCode] =
     navigator.language.split("-");
@@ -63,7 +59,7 @@ function populateSelectOptions() {
 populateSelectOptions();
 
 function handleError(event: ErrorEvent) {
-  let errorMessage: string;
+  let errorMessage: string = "";
 
   switch (event.error) {
     case "audio-capture": {
@@ -200,7 +196,7 @@ downloadAsTextButton.addEventListener("click", (e) => {
     return;
   }
 
-  const filename = "speech.txt";
+  const filename = "transcript.txt";
   const element = createDownloadLink(text, filename);
 
   appendLinkToBodyAndTriggerDownload(element);
