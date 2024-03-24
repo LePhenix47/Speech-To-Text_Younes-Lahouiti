@@ -73,13 +73,18 @@ html {}
     }
 
     &__label {
-        text-decoration: underline;
+        &:has(>input:checked) {
+            text-decoration: underline;
+        }
+
 
         &--playstate {
             display: inline-flex;
             gap: 10px;
         }
     }
+
+    &__input {}
 
     &__select {
         border-radius: 100vmax;
