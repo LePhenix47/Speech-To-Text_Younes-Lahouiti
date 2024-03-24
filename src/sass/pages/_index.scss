@@ -52,6 +52,12 @@ html {}
         }
     }
 
+
+    &__legend {
+        font-size: 22px;
+        text-wrap: balance;
+    }
+
     &__options {
         backdrop-filter: blur(25px);
 
@@ -68,6 +74,11 @@ html {}
 
     &__label {
         text-decoration: underline;
+
+        &--playstate {
+            display: inline-flex;
+            gap: 10px;
+        }
     }
 
     &__select {
@@ -80,7 +91,12 @@ html {}
     &__fieldset {
         width: 100%;
 
-        &--options {}
+        &--options {
+            display: flex;
+            flex-direction: column;
+
+            gap: 15px;
+        }
 
         &--result {}
 
@@ -88,6 +104,8 @@ html {}
             display: flex;
             justify-content: space-between;
             gap: 15px;
+
+            flex-wrap: wrap;
 
             @include mobile-only {
                 flex-direction: column;
@@ -98,7 +116,7 @@ html {}
     &__sentences-container {
         width: inherit;
 
-        min-height: 50svh;
+        min-height: 40svh;
         max-height: 75svh;
 
         border-radius: 5px;
@@ -126,7 +144,7 @@ html {}
     }
 
     &__button {
-        padding: 15px;
+        padding: 10px;
 
         text-align: center;
 
@@ -137,7 +155,7 @@ html {}
 
         transition: filter 250ms ease-in-out;
 
-        flex: 1;
+        flex: 1 1 32%;
 
         &:hover {
             filter: brightness(85%);

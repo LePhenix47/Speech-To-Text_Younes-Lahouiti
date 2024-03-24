@@ -1,5 +1,6 @@
 //Web components
 import {
+  addClass,
   removeClass,
   selectQuery,
 } from "@utils/functions/helper-functions/dom.functions";
@@ -13,7 +14,13 @@ const headingElement = selectQuery<HTMLHeadingElement>(".index__title-2.hide");
 function setErrorMessageToH2(message: string) {
   removeClass(headingElement, "hide");
 
-  headingElement.textContent += `An unexpected error occurred:\n ${message}`;
+  headingElement.textContent = `An unexpected error occurred:\n ${message}`;
+}
+
+function removeH2ErrorMessage() {
+  addClass(headingElement, "hide");
+
+  headingElement.textContent = "";
 }
 
 function checkIfUserIsOnline() {
@@ -29,6 +36,25 @@ function checkIfUserIsOnline() {
 }
 
 const select = selectQuery<HTMLSelectElement>("select");
+
+const startRecognitionRadioInput = selectQuery<HTMLInputElement>(
+  ".index__input--start"
+);
+startRecognitionRadioInput.addEventListener("change", (e: Event) => {
+  recognition.startRecognition();
+  recognition.setOnEnd(recognition.startRecognition);
+
+  removeH2ErrorMessage();
+});
+
+const stopRecognitionRadioInput = selectQuery<HTMLInputElement>(
+  ".index__input--stop"
+);
+
+stopRecognitionRadioInput.addEventListener("change", (e: Event) => {
+  recognition.stopRecognition();
+  recognition.setOnEnd(null);
+});
 
 function populateSelectOptions() {
   let options: string = ``;
@@ -221,3 +247,9 @@ function appendLinkToBodyAndTriggerDownload(link: HTMLAnchorElement): void {
   link.click();
   document.body.removeChild(link);
 }
+
+const clearButton = selectQuery<HTMLButtonElement>(".index__button--clear");
+
+clearButton.addEventListener("click", () => {
+  container.innerHTML = "";
+});

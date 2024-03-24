@@ -53,6 +53,8 @@
 
         <form class="index__options">
             <fieldset class="index__fieldset index__fieldset--options">
+                <legend class="index__legend">Options:</legend>
+
                 <label class="index__label" for="languages">
                     Select language:
                 </label>
@@ -60,9 +62,21 @@
                     <!-- <option value=""></option> -->
                 </select>
             </fieldset>
+            <fieldset class="index__fieldset index__fieldset--options">
+                <legend class="index__legend">Recognition playstate:</legend>
+                <label class="index__label index__label--playstate">
+                    <input type="radio" class="index__input index__input--start" name="recognition-play-state"
+                        checked />Start
+                    recognition
+                </label>
+                <label class="index__label index__label--playstate">
+                    <input type="radio" class="index__input index__input--stop" name="recognition-play-state" />Stop
+                    recognition
+                </label>
+            </fieldset>
 
             <fieldset class="index__fieldset index__fieldset--result">
-                <h2 class="index__title-2">Result:</h2>
+                <legend class="index__legend">Result:</legend>
                 <section class="index__sentences-container" spellcheck="false">
                 </section>
             </fieldset>
@@ -71,6 +85,7 @@
                 <button type="button" class="index__button index__button--copy">Copy text</button>
                 <button type="button" class="index__button index__button--download">Download as <code>.txt</code>
                     file</button>
+                <button type="button" class="index__button index__button--clear">Clear</button>
             </fieldset>
         </form>
 
